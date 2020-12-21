@@ -95,6 +95,13 @@ but will be able to target both 32-bit and 64-bit systems.
 There are a number of additional options that may be passed to
 configure.  See './configure --help' for more details.
 
+- #### Building ComRV
+    ComRV changes are reflcated in GDB, it needs Python support. 
+Please do the following to build the toolchain with ComRV GDB support:
+
+        make GDB_TARGET_FLAGS_EXTRA="--with-pythonhome-variable=GDB_PYTHONHOME --with-python=<your python path>"
+    Note: Python path is usually in: **/usr/bin/python**
+
 ### Test Suite
 
 The DejaGnu test suite has been ported to RISC-V.  This can run with GDB
