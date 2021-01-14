@@ -188,8 +188,11 @@ $(OBJDIR)/stamps/expat/install.stamp: \
 
 	#$(MAKE) -C $($@_BUILD) buildlib
 	#$(MAKE) -C $($@_BUILD) installlib
-	$(MAKE) -C $($@_BUILD) 
+	$(MAKE) -C $($@_BUILD) CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" LDFLAGS="$(LDFLAGS)"
 	$(MAKE) -C $($@_BUILD) install
+	$(info CFLAGS= $(CFLAGS))
+	$(info CXXFLAGS= $(CXXFLAGS))
+	$(info LDFLAGS= $(LDFLAGS))
 	mkdir -p $(dir $@)
 	date > $@
 	$(info "-------------------------- Expat phase 3 install--------------------------")
@@ -200,7 +203,7 @@ $(OBJDIR)/build/expat/configure:
 	rm -rf $(dir $@)
 	mkdir -p $(dir $@)
 	cp -a $(SRC_EXPAT)/* $(dir $@)
-	cd $(dir $@); ./buildconf.sh
+	cd $(dir $@); ./buildconf.sh; libtoolize; ./buildconf.sh
 	touch -c $@
 
 
