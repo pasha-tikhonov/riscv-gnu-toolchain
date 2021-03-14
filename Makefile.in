@@ -453,7 +453,7 @@ stamps/build-binutils-newlib: $(srcdir)/riscv-binutils
 	$(MAKE) -C $(notdir $@) install
 	mkdir -p $(dir $@) && touch $@
 
-stamps/build-gdb-newlib: $(srcdir)/riscv-gdb
+stamps/build-gdb-newlib: $(srcdir)/riscv-gdb stamps/build-gcc-newlib-stage2
 	rm -rf $@ $(notdir $@)
 	mkdir $(notdir $@)
 # CC_FOR_TARGET is required for the ld testsuite.
