@@ -84,6 +84,8 @@ MUSL_CXX_FOR_TARGET ?= $(MUSL_TUPLE)-g++
 
 CONFIGURE_HOST   = @configure_host@
 
+GCC_BIN := $(NEWLIB_TUPLE)-gcc
+
 all: @default_target@
 #newlib: $(OBJDIR)/stamps/expat/install.stamp
 newlib: stamps/riscv-gcc-gmp $(OBJDIR)/stamps/expat/install.stamp stamps/build-gcc-newlib-stage2 
@@ -545,11 +547,12 @@ stamps/build-newlib-nano: $(srcdir)/riscv-newlib stamps/build-gcc-newlib-stage1
 	$(MAKE) -C $(notdir $@)
 	$(MAKE) -C $(notdir $@) install
 	mkdir -p $(dir $@) && touch $@
-
+	
 stamps/merge-newlib-nano: stamps/build-newlib-nano stamps/build-newlib
 # Copy nano library files into newlib install dir.
+	if test -f $(INSTALL_DIR)/bin/$(NEWLIB_TUPLE)-gcc; then GCC_BIN=$(INSTALL_DIR)/bin/$(NEWLIB_TUPLE)-gcc; fi 
 	set -e; \
-        for ml in `$(INSTALL_DIR)/bin/$(NEWLIB_TUPLE)-gcc --print-multi-lib`; \
+        for ml in `$(GCC_BIN) --print-multi-lib`; \
 	do \
 	    mld=`echo $${ml} | sed -e 's/;.*$$//'`; \
 	    cp $(builddir)/install-newlib-nano/$(NEWLIB_TUPLE)/lib/$${mld}/libc.a \
